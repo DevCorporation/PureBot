@@ -4,7 +4,8 @@
 from random import randint
 from random import choice as randstr
 import sl4a
-
+import time
+   
 # Вывод на экран!
 
 droid = sl4a.Android().makeToast
@@ -15,27 +16,26 @@ for word in words:
  
 # Глобальные переменные
 
+global inp
 global not_found
 global prefix
-global inp
 global version
 
 not_found = "Команда не найдена, введите «/help» для просмотра доступных комманд."
-prefix = "[PureBot]"
-version = "Версия: 0.4 - Бета"
+prefix = "\n[PureBot]"
+version = "Версия: 0.5 - Бета"
 
 # Начало программы
 
 print("Запуск программы...\nПрограмма «PureBot» предназначена для лиц старше 14+  :D")
 print("Разработчики:\n Xaker Su - mcg76\n Максим Удачин - Bruno99\n\n",version)
 print("-"*50,"\n")
-inp = str(input("Введите комманду: "))
 
 # Command «/help»
 
 def helps(commandsend):
  if commandsend == "/help":
-  print("\n Список комманд:\n/help - Помощь по боту\n/random - Случайное число от 0 до 100\n/tf - Мини игра «True or False»")
+  print("\n Список комманд:\n/help - Помощь по боту\n/random - Случайное число от 0 до 100\n/tf - Мини игра «True or False»\n/exit - Выйти из системы")
 
 # Command «/random»
   
@@ -76,21 +76,53 @@ def trueorfalse(commandsend):
 # Система случайного получения денег:  
 # print("\nВаша награда: ",randmoney)
 # Возможно экономика "БОТовая".
-   
-# commands = helps,random,trueorfalse
+
+# Команда «/exit»
+
+def exit(commandsend):
+ while commandsend == "/exit":
+  print("Хотите выйти из программы?\nДа или Нет?\n",)
+  exit = input("Потвердите выход: ")
+  exits = {"Да":"Да","да":"да","Нет":"Нет","нет":"нет"}
+  if exit == exits[exit]:
+   print("\nВыход из программы потвержден.")
+   print("\n\nВыключение программы...."*2)
+   break
+  
 # Функция ввода и вывода
 
-def entry(inp):
- if inp == "/help":
-  helps(inp)
- elif inp == "/random":
-  random(inp)
- elif inp == "/tf":
-  trueorfalse(inp)
- else:
-  print(not_found)
- 
-entry(inp)
+def entry():
+ commands = {"/help":helps,"/random":random,"/tf":trueorfalse}
+ exits = {"Да":"Да","да":"да","Нет":"Нет","нет":"нет"}
+ while True:
+  print(prefix," Ожидайте появления ввода...")
+  time.sleep(4)
+  command = str(input("\nВведите комманду: "))  
+  if command in commands:
+   commands[command](command)
+  elif command == "/exit":
+   print("Хотите выйти из программы?\nДа или Нет?\n",)
+   try:
+    exit = input("Потвердите выход: ")
+    exits = {"Да":"Да","да":"да","Нет":"Нет","нет":"нет"}
+    if exit == exits[exit]:
+     print("\nВыход из программы потвержден.")
+     print("\n\nВыключение программы..")
+     time.sleep(2)
+     print("\n3..")
+     time.sleep(2)
+     print("\n2..")
+     time.sleep(2)
+     print("\n1..")
+     time.sleep(1)
+     print("\nСпасибо за внимание!!!")
+     break
+   except KeyError:
+    print("Ошибка, ключ с данным именем не найден!\n"*3)
+  else:
+   print(not_found)
+  continue
+entry()
 
 # Конец программы
 
